@@ -87,6 +87,40 @@ gear.obi_cure_waist = "Luminary Sash"
 	set_lockstyle_custom(1)
 	end
 
+
+function check_buff()
+	if state.AutoBuffMode.value ~= 'Off' and not data.areas.cities:contains(world.area) then
+		local spell_recasts = windower.ffxi.get_spell_recasts()
+		local abil_recasts = windower.ffxi.get_ability_recasts()
+		for i in pairs(buff_spell_lists[state.AutoBuffMode.Value]) do
+			if not buffactive[buff_spell_lists[state.AutoBuffMode.Value][i].Buff] and (buff_spell_lists[state.AutoBuffMode.Value][i].When == 'Always' or (buff_spell_lists[state.AutoBuffMode.Value][i].When == 'Combat' and (player.in_combat or being_attacked)) or (buff_spell_lists[state.AutoBuffMode.Value][i].When == 'Engaged' and player.status == 'Engaged') or (buff_spell_lists[state.AutoBuffMode.Value][i].When == 'Idle' and player.status == 'Idle') or (buff_spell_lists[state.AutoBuffMode.Value][i].When == 'OutOfCombat' and not (player.in_combat or being_attacked))) and spell_recasts[buff_spell_lists[state.AutoBuffMode.Value][i].SpellID] < spell_latency and silent_can_use(buff_spell_lists[state.AutoBuffMode.Value][i].SpellID) then
+				if not unbridled_spells:contains(buff_spell_lists[state.AutoBuffMode.Value][i].Name) or unbridled_ready() then
+					windower.chat.input('/ma "'..buff_spell_lists[state.AutoBuffMode.Value][i].Name..'" <me>')
+					tickdelay = os.clock() + 2
+					return true
+				end
+			end
+		end
+		if not buffactive.Berserk and abil_recasts[1] < latency then
+			windower.chat.input('/ja "Berserk" <me>')
+			tickdelay = os.clock() + 1.1
+			return true
+		end 
+		if not buffactive.Warcry and abil_recasts[2] < latency then
+			windower.chat.input('/ja "Warcry" <me>')
+			tickdelay = os.clock() + 1.1
+			return true
+		end
+		if not buffactive.Aggressor and abil_recasts[4] < latency then
+			windower.chat.input('/ja "Aggressor" <me>')
+			tickdelay = os.clock() + 1.1
+			return true
+		end
+	else
+		return false
+	end
+end
+
 function init_gear_sets()
 
 --------------------------------------
