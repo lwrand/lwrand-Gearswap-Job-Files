@@ -3,7 +3,7 @@ function user_setup()
     state.OffenseMode:options('Normal','Acc')
     state.CastingMode:options('Normal','Resistant','AoE')
     state.IdleMode:options('Normal','PDT')
-	state.Weapons:options('Carnwenhan','None','DualWeapons','Swords','NukeWeapons')
+	state.Weapons:options('Carnwenhan','None','DualWeapons','Swords','NukeWeapons','Aeolian')
 
 	-- Adjust this if using the Terpander (new +song instrument)
     info.ExtraSongInstrument = 'Daurdabla'
@@ -36,6 +36,7 @@ function init_gear_sets()
 	sets.weapons.Carnwenhan = {main="Carnwenhan",sub="Crepuscolar Knife"}
 	--sets.weapons.Aeneas = {main="Aeneas",sub="Crepuscolar Knife"}
 	sets.weapons.DualWeapons = {main="Carnwenhan",sub="Crepuscolar Knife"}
+	sets.weapons.Aeolian = {main={ name="Malevolence", augments={'INT+3','Mag. Acc.+5','"Mag.Atk.Bns."+7',}},sub="Aeneas"}
 	sets.weapons.Swords = {main="Naegling",sub="Crepuscolar Knife"}
 	sets.weapons.NukeWeapons = {
 		--main = "Malevolence",
@@ -210,6 +211,22 @@ function init_gear_sets()
 		waist="Grunfeld Rope"
 	})
 	
+	sets.precast.WS["Aeolian Edge"] = set_combine(sets.precast.WS, {
+		range=gear.linos_wsd,
+		head="Cath Palug crown",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		body="Bihu Justaucorps +3",
+		neck="Sanctity Necklace",
+		ear1="Moonshade Earring",
+		ear2="Friomisi Earring",
+		ring1="Karieyh Ring +1",
+		ring2="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10',}},
+		waist="Yamabuki-no-Obi"
+	})
+	
 	-- Swap to these on Moonshade using WS if at 3000 TP
 	sets.MaxTP = {ear1="Ishvara Earring",ear2="Telos Earring",}
 	sets.AccMaxTP = {
@@ -217,7 +234,6 @@ function init_gear_sets()
 		--ear2 = "Telos Earring"
 	}
 	-- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
-
 
 	-- Midcast Sets
 
